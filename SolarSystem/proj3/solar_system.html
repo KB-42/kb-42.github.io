@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+<meta charset="UTF-8">
+<title>Solar System-JD</title>
+
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+
+<script type="text/javascript" src="Matrix_lib.js"></script>
+<script type="text/javascript" src="solar_system.js"></script>
+<script type="text/javascript" src="vs.js"></script>
+<script type="text/javascript" src="fs.js"></script>
+
+</head>
+
+<body bgcolor="#101010">
+  <div style="text-align: center;">
+  <font color="green">
+
+  <canvas id="gl-canvas" width="720" height="720" style="float:center"> <!-- Increased canvas size -->
+  Oops ... your browser doesn't support the HTML5 canvas element
+  </canvas>
+
+<p>
+  <h2>
+  <button onclick="changeView(RenderMode.TOP)">Top down View</button>
+  <button onclick="changeView(RenderMode.SIDE)">Side View</button>
+  <button onclick="changeView(RenderMode.MERCURY)">Mercury</button>
+  <button onclick="changeView(RenderMode.VENUS)">Venus</button>
+  <button onclick="changeView(RenderMode.EARTH)">Earth</button>
+  <button onclick="changeView(RenderMode.MARS)">Mars</button>
+  <button onclick="changeView(RenderMode.JUPITER)">Jupiter</button>
+  <button onclick="changeView(RenderMode.SATURN)">Saturn</button>
+  <button onclick="changeView(RenderMode.URANUS)">Uranus</button>
+  <button onclick="changeView(RenderMode.NEPTUNE)">Neptune</button>
+  <button onclick="changeView(RenderMode.PLUTO)">Pluto</button>
+  </h2>
+
+<p>
+  <h2>
+    See Orbit Paths: <input type="checkbox" id="myCheck" onclick="pathsState()"> </br>
+    Zoom: <input type="range" min="1.0" max="179.0" value="45.0" class="" id="fov" step="0.1"> </br>
+    Lock framerate to 75fps: <input type="checkbox" id="frameLock" checked>
+  </h2>
+  <p>
+<p>
+<textarea id="text-box" rows="12" cols="60" readonly style="background-color:black;color:green;">
+Cool Facts!
+</textarea>
+
+</font>
+</div>
+</body>
+
+</html>
