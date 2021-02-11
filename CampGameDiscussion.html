@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+		<title>Jacob Denton Portpholio </title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+
+    <body class="is-preload"> 
+
+        <div id="wrapper" class="divided">
+
+            <section class="banner style2 orient-center content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
+                <div class="content">
+                    <h2><b>Discussion:</br>Summer Camp Game</b></h2> </br>
+                    <p class="major"> 
+                        This project was our degree capstone. A swan song, if you will. It served as proof that we learned something in the four long years of higher education. 
+                        This project effectively combined and utilized a multitude of computer science concepts and fundamentals.
+                    </p>
+                    <h3> <b>Design</b></br> Tracking Player Progression </h3>
+                    <p>
+                        From the beginning, me and my project partner wanted this game to have multiple endings based upon the players decisions. At the time we really had no idea on how to achieve this. There was no built-in functionality or library within GameMaker that would easily solve this problem for us. As the person who was in charge of the majority of programming and of the software architecture, it was up to me to figure this out. The solution was found within the subject of Design Patterns, specifically, singletons.</br>Singletons allow the existence of a single static instance of a globally accessible object. With singletons, we are able to keep track of the players state across scenes/levels. Also, other objects/entities are able to get information from the global singleton about the state of the player and present different dialogue when the player interacts with them.
+                    </p>
+                    <h3> The Dialogue System </h3>
+                    <p> 
+                        The dialogue system in this project is the single most complex system in the game. 
+                        On its surface, a dialogue system seems quite simple: 
+                        <ol type="1"> 
+                            <li>display message to player</li>
+                            <li>display player response options</li>
+                            <li>display next message based upon the players chosen response option.</li>
+                        </ol>
+                        This pattern can be implemented using a Graph Tree. Where each node of the graph is a object that contains the message string and an array of response that have reference to the next node.</br>
+                        We used JSON files to persistently store dialogue.
+                        <pre> 
+                            <code> 
+{
+
+    "interaction_1": {
+
+        "node_1": {
+            "line0": "This is line 1 of interaction",
+            "line1": "This is line 2 of interaction",
+            "line2": "This is line 3 of interaction. Dialogue options should show up.",
+            "ResponseOption0": "Yes!",
+            "ResponseOption1": "No!"
+        },
+
+        "node_2": {
+            "line0": "This shows if you answer YES"
+        },
+
+        "node_3": {
+            "line0": "This shows if you answer NO"
+        }
+
+    }
+    .... More interactions ....
+}
+
+                            </code>
+                        </pre> 
+                        This original concept works because the next node in the tree is programmatically inferred based on the response option chosen.
+                        <b>But, what if you want to go back and repeat a node? </b>
+                        Well we add explicit next nodes. So now the JSON files look like this.
+                        
+                        <pre> 
+                            <code> 
+{
+
+"interaction_2": {
+
+    "node_1": {
+        "line0": "This is line 1 of interaction",			
+        "line1": "This is line 2 of interaction",
+        "line2": "This is line 3 of interaction. Dialogue options should show up.",
+        "ResponseOption0": "Yes!",
+        "ResponseOption1": "No!",
+        "NextNode0": 0, // this will loop, or rather start node_1 again
+        "NextNode1": 3 // This starts node_4
+    },
+    
+    // Due to the next nodes property this is not going to be accessible
+    "node_2": {
+        "line0": "This shows if you answer YES"
+    },
+    
+    // Due to the next nodes property this is not going to be accessible
+    "node_3": {
+        "line0": "This shows if you answer NO"
+    }
+    
+    "node_4": {
+        "line0": "you chose option 1 "No!" "
+    }
+}
+
+}
+                            </code>
+
+                        </pre>
+
+                        As pointed out in the comments in the code. It is possible to for some nodes to be unaccessible.
+                        But it will be fine as long as the next nodes are specified for each response. </br>
+                        So, at the start of each scene/level the interactions and their nodes are loaded into a hash table from the JSON.
+                        Each interactable entity/character in the scene has string for their interaction that would map to the interaction in the hash.
+                        This makes each interaction and its nodes accessible at a time complexity of: <b><i>O(1)</i></b></br>
+                        
+                    </p>
+                    <h3> Notable Feature </h3>
+                    <p> 
+                        <a href="https://youtu.be/Y1BZTCrWi0w?t=3191">Rewind time effect</a></br>
+                        As you can see from the clip, their is an interesting time rewind effect. (besides the CRT shader) <b>How is this effect achieved?</b>
+                        GameMaker has a built-in functionality to capture application surfaces and store them in video RAM. 
+                        These surfaces are essentially "screen-shots" with zero compression. </br>
+                        So we take these "screen-shots" store them in a stack data-structure, and when we are ready to rewind time we pop the frames off the stack and display them.</br>
+                        Yes, filling up the "screen-shots" stack can take up alot of video RAM but adding to and popping a stack has a time complexity of: <b><i>O(1)</i></b>
+                    </p>
+
+                </div>
+                <!--
+                <div class="image">
+                    <img src="images/markus-spiske-Skf7HxARcoc-unsplash.jpg" alt="" />
+                </div>
+
+                -->
+                
+            </section>
+
+
+            <footer class="wrapper style1 align-center">
+                <div class="inner">
+                    <ul class="icons">
+                        <li><a href="#https://github.com/KB-42" class="icon brands style2 fa-github"><span class="label">Instagram</span></a></li>
+                        <li><a href="#" class="icon brands style2 fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+                        <li><a href="mailto:jddenton96@gmail.com" class="icon style2 fa-envelope"><span class="label">LinkedIn</span></a></li>
+                    </ul>
+                    <p>&copy; 2021 Jacob "KB-42" Denton. Original Template: <a href="https://html5up.net">HTML5 UP</a>.</p>
+                </div>
+            </footer>
+
+
+
+        </div>
+
+        <!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+    </body>
+
+    
+
+
+
+</html>
+
